@@ -1,0 +1,112 @@
+package TestAssignement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
+public class Login {
+    //Create a variable to store Base URL
+
+    String baseURL = "https://www.goraitech.com/gts/login";
+    public WebDriver driver;
+
+    @BeforeTest
+    public  void beforeTestMethod(String args[])throws InterruptedException{
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+
+    }
+    @Test(priority = 1)
+    public void correctLogin()throws InterruptedException{
+        driver.get(baseURL);
+        WebElement email = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[1]/input"));
+        WebElement password = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[3]"));
+        WebElement login = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[6]/div/button"));
+
+        // Send the Values
+        email.sendKeys("test12@gmail.com");
+        password.sendKeys("Testravi@1517");
+
+        //Execute
+
+        login.click();
+        System.out.println("Verify that user can login to the system with correct username and password.");
+        Thread.sleep(3000);
+    }
+
+    @Test(priority=2)
+    public void invalidLogin()throws InterruptedException{
+        driver.get(baseURL);
+
+        WebElement email1 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[1]/input"));
+        WebElement password1 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[3]"));
+        WebElement login1 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[6]/div/button"));
+
+        //Send keys
+        email1.sendKeys("test12gmail.com");
+        password1.sendKeys("Testravi@1517");
+
+        //Execute
+        login1.click();
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+        System.out.println("Verify that user can login to the system with Incorrect username and correct password");
+
+        //Test whether user can log into the system with correct username and invalid password
+        WebElement email2 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[1]/input"));
+        WebElement password2 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[3]"));
+        WebElement login2 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[6]/div/button"));
+
+        //Send keys
+        email2.sendKeys("test12@gmail.com");
+        password2.sendKeys("Testing");
+
+        //Execute
+        login2.click();
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+        System.out.println("Verify that user can login to the system with correct username and incorrect password");
+
+        //Test whether user can log into the system with incorrect username and invalid password
+        WebElement email3 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[1]/input"));
+        WebElement password3 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[3]"));
+        WebElement login3 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[6]/div/button"));
+
+        //Send keys
+        email3.sendKeys("test12gmail.com");
+        password3.sendKeys("Testing");
+
+        //Execute
+        login3.click();
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+        System.out.println("Verify that user can login to the system with incorrect username and incorrect password");
+
+        //Test whether user can log into the system with empty text fields
+        WebElement email4 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[1]/input"));
+        WebElement password4 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[3]"));
+        WebElement login4 = driver.findElement(By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/form/div[6]/div/button"));
+
+        //Send keys
+        email4.sendKeys("");
+        password4.sendKeys("");
+
+        //Execute
+        login4.click();
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+        System.out.println("Verify that user can login to the system with empty text fields ");
+
+
+    }
+
+    @AfterTest
+    public void afterTest(){
+        driver.quit();
+    }
+
+}
