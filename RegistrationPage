@@ -1,0 +1,140 @@
+package TestAssignement;
+import net.bytebuddy.build.Plugin;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.Assert;
+public class Registration {
+    //Create a variable to store Base URL
+
+    String baseURL = "https://www.goraitech.com/gts/register";
+    public WebDriver driver;
+
+    @BeforeTest
+    public  void beforeTestMethod(String args[])throws InterruptedException{
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+
+    }
+    @Test(priority = 1)
+    public void correctLogin()throws InterruptedException{
+        driver.get(baseURL);
+        WebElement email = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[1]/div/input"));
+        WebElement password = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[3]/div/input"));
+        WebElement rePassword = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[5]/div/input"));
+        WebElement register = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[10]/button"));
+
+        // Send the Values
+        email.sendKeys("test12@gmail.com");
+        password.sendKeys("Testravi@1517");
+        rePassword.sendKeys(("Testravi@1517"));
+
+
+        //Execute
+
+        register.click();
+        System.out.println("Verify that user can login to the system with correct username and password.");
+        Thread.sleep(3000);
+    }
+
+    @Test(priority = 2)
+    public void IncorrectLogin()throws InterruptedException{
+        driver.get(baseURL);
+        WebElement email1 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[1]/div/input"));
+        WebElement password1 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[3]/div/input"));
+        WebElement rePassword1 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[5]/div/input"));
+        WebElement register1 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[10]/button"));
+
+        // Send the Values
+        email1.sendKeys("test12gmail.com");
+        password1.sendKeys("Testravi@1517");
+        rePassword1.sendKeys(("Testravi@1517"));
+
+
+        //Execute
+
+        register1.click();
+        System.out.println("Verify that user can register  to the system with incorrect username and correct password.");
+        Thread.sleep(3000);
+
+
+        //Verify that Registration can be done with
+        WebElement email2 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[1]/div/input"));
+        WebElement password2 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[3]/div/input"));
+        WebElement rePassword2 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[5]/div/input"));
+        WebElement register2 = driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/form/div[10]/button"));
+
+        // Send the Values
+        email2.sendKeys("");
+        password2.sendKeys("");
+        rePassword2.sendKeys((""));
+
+
+        //Execute
+
+        register2.click();
+        System.out.println("Verify that user can register to the system without entering mandatory fields.");
+        Thread.sleep(3000);
+
+
+    }
+    @Test(priority = 5)
+    public void googletncheck()throws InterruptedException{
+        WebElement googlebtn= driver.findElement(By.xpath("/html/body/div/div/main/section/div/div[3]/div/div/div/div/div/button[1]"));
+        //Execute
+        googlebtn.click();
+
+    }
+
+    @Test(priority = 3)
+    public void validatePassword()throws InterruptedException{
+        WebElement passwordField = driver.findElement(By.id("password"));
+        WebElement confirmPasswordField = driver.findElement(By.id("confirmPassword"));
+
+        String password = "mySecretPassword";
+        passwordField.sendKeys("Testravi@1517");
+        confirmPasswordField.sendKeys("Testravi@1517");
+
+// Verify if passwords match
+        if (passwordField.getAttribute("value").equals(confirmPasswordField.getAttribute("value"))) {
+            System.out.println("Passwords match!");
+        } else {
+            System.out.println("Passwords do not match!");
+        }
+
+    }
+
+    @Test(priority = 5)
+    public void validatePasswordlength()throws InterruptedException {
+        WebElement passwordField1 = driver.findElement(By.id("password"));
+
+
+        String password = "mySecretPassword";
+        String maxLength = passwordField1.getAttribute("maxlength");
+        int expectedMaxLength = Integer.parseInt(maxLength);
+
+        passwordField1.sendKeys("Testravi@1517");
+
+
+        // Verify if the expected maximum length matches the actual attribute value
+        Assert.assertEquals(expectedMaxLength, 8, "Password field has incorrect maxlength.");
+
+        //Execute
+        passwordField1.click();
+        Thread.sleep(2000);
+
+    }
+
+    @AfterTest
+     public void afterTest(){
+        driver.quit();
+    }
+
+
+}
